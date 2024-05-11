@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace StructuralPatterns.Adapter;
+﻿namespace StructuralPatterns.Adapter;
 
 public class User
 {
@@ -9,4 +7,5 @@ public class User
     public string? Password { get; set; }
 }
 
-// My services
+
+

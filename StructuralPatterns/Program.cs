@@ -29,13 +29,33 @@
 // }
 
 
-using StructuralPatterns.Decorator;
+// using StructuralPatterns.Decorator;
+//
+// var accountManager = new AccountManager();
+// var fileDecorator = new FileAccountDecorator(accountManager);
+// var consoleDecorator = new ConsoleAccountInfoDecorator(fileDecorator);
+//
+// consoleDecorator.Add(new Account()
+// {
+//     Id = 42
+// });
 
-var accountManager = new AccountManager();
-var fileDecorator = new FileAccountDecorator(accountManager);
-var consoleDecorator = new ConsoleAccountInfoDecorator(fileDecorator);
+using System.Diagnostics;
+using StructuralPatterns.Proxy;
 
-consoleDecorator.Add(new Account()
-{
-    Id = 42
-});
+//
+// //
+// var imageLoader = new HttpImageLoader();
+// var imageApi = new ImageApi(imageLoader);
+//
+// imageApi.OpenImage();
+
+// Process.Start("mspaint", new[] { fileFound });
+var imageLoader = new HttpImageLoader();
+var imageApi = new ImageApi(imageLoader, filePath => { Process.Start("mspaint", new[] { filePath }); });
+var imageProxy = new ImageApiProxy(imageApi);
+
+imageProxy.OpenImage(@"https://as1.ftcdn.net/v2/jpg/04/97/69/24/1000_F_497692451_3Sl6vbIXVtS7metinrh8FrH10zf7543z.jpg");
+imageProxy.OpenImage(@"https://upload.wikimedia.org/wikipedia/en/thumb/f/f3/Flag_of_Russia.svg/1200px-Flag_of_Russia.svg.png");
+
+
