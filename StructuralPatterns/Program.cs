@@ -41,6 +41,7 @@
 // });
 
 using System.Diagnostics;
+using StructuralPatterns.Composite;
 using StructuralPatterns.Proxy;
 
 //
@@ -51,11 +52,32 @@ using StructuralPatterns.Proxy;
 // imageApi.OpenImage();
 
 // Process.Start("mspaint", new[] { fileFound });
-var imageLoader = new HttpImageLoader();
-var imageApi = new ImageApi(imageLoader, filePath => { Process.Start("mspaint", new[] { filePath }); });
-var imageProxy = new ImageApiProxy(imageApi);
+// var imageLoader = new HttpImageLoader();
+// var imageApi = new ImageApi(imageLoader, filePath => { Process.Start("mspaint", new[] { filePath }); });
+// var imageProxy = new ImageApiProxy(imageApi);
+//
+// imageProxy.OpenImage(@"https://as1.ftcdn.net/v2/jpg/04/97/69/24/1000_F_497692451_3Sl6vbIXVtS7metinrh8FrH10zf7543z.jpg");
+// imageProxy.OpenImage(@"https://upload.wikimedia.org/wikipedia/en/thumb/f/f3/Flag_of_Russia.svg/1200px-Flag_of_Russia.svg.png");
 
-imageProxy.OpenImage(@"https://as1.ftcdn.net/v2/jpg/04/97/69/24/1000_F_497692451_3Sl6vbIXVtS7metinrh8FrH10zf7543z.jpg");
-imageProxy.OpenImage(@"https://upload.wikimedia.org/wikipedia/en/thumb/f/f3/Flag_of_Russia.svg/1200px-Flag_of_Russia.svg.png");
 
+var builder = new ControlBuilder(new ControlFactory());
 
+builder.Add<ListBox>()
+    .Add<Button>(true)
+    .Add<Button>()
+    .Add<TextBlock>();
+
+var result = builder.Build().Render();
+
+Console.WriteLine(result);
+
+// var listBox = new ListBox();
+// var button = new Button();
+// var button2 = new Button();
+// var textBlock = new TextBlock();
+//
+// listBox.AddChild(button);
+// button.AddChild(textBlock);
+// button.AddChild(button2);
+
+//Console.WriteLine(listBox.Render());
