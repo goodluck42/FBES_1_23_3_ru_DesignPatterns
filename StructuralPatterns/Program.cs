@@ -42,6 +42,7 @@
 
 using System.Diagnostics;
 using StructuralPatterns.Composite;
+using StructuralPatterns.Facade;
 using StructuralPatterns.Proxy;
 
 //
@@ -60,16 +61,12 @@ using StructuralPatterns.Proxy;
 // imageProxy.OpenImage(@"https://upload.wikimedia.org/wikipedia/en/thumb/f/f3/Flag_of_Russia.svg/1200px-Flag_of_Russia.svg.png");
 
 
-var builder = new ControlBuilder(new ControlFactory());
+var facade = new ControlFacade();
 
-builder.Add<ListBox>()
-    .Add<Button>(true)
-    .Add<Button>()
-    .Add<TextBlock>();
-
-var result = builder.Build().Render();
-
-Console.WriteLine(result);
+Console.WriteLine(facade.RenderCustomControl());
+Console.WriteLine(facade.RenderSuperButton("ButtonName"));
+Console.WriteLine(facade.RenderSuperButton("ButtonName2"));
+Console.WriteLine(facade.RenderSuperButton("ButtonName3"));
 
 // var listBox = new ListBox();
 // var button = new Button();
@@ -81,3 +78,12 @@ Console.WriteLine(result);
 // button.AddChild(button2);
 
 //Console.WriteLine(listBox.Render());
+
+
+partial class Program
+{
+    public void Init(ControlFacade facade)
+    {
+        
+    }
+}
