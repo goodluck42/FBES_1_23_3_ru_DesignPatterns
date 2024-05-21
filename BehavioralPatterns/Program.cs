@@ -1,6 +1,7 @@
 ﻿using BehavioralPatterns.Iterator;
 using System.Collections;
 using BehavioralPatterns.ChainOfResponsibility;
+using BehavioralPatterns.Mediator;
 using BehavioralPatterns.Observer;
 
 //
@@ -41,22 +42,35 @@ using BehavioralPatterns.Observer;
 //
 // enumerator.Reset();
 
-var dbContext = new UserDbContext();
-var application = new App();
-var authenticationHandler = new AuthenticationHandler(dbContext);
-var authorizationHandler = new AuthorizationHandler(dbContext);
-var personalDataValidatorHandler = new PersonalDataValidatorHandler(application);
+// var dbContext = new UserDbContext();
+// var application = new App();
+// var authenticationHandler = new AuthenticationHandler(dbContext);
+// var authorizationHandler = new AuthorizationHandler(dbContext);
+// var personalDataValidatorHandler = new PersonalDataValidatorHandler(application);
+//
+// authenticationHandler.Next = authorizationHandler;
+// authorizationHandler.Next = personalDataValidatorHandler;
+//
+//
+// authenticationHandler.Handle(new UserData
+// {
+//     Dto = new()
+//     {
+//         Login = "login",
+//         Password = "qwerty1",
+//     }
+// });
 
-authenticationHandler.Next = authorizationHandler;
-authorizationHandler.Next = personalDataValidatorHandler;
+var mediator = new ChatMediator();
+var chatService = new ChatService(mediator);
+var chatLogger = new ChatLogger(mediator);
+var chatThemeChanger = new ChatThemeChanger(mediator);
+
+mediator.ChatService = chatService;
+mediator.ChatLogger = chatLogger;
+mediator.ChatThemeChanger = chatThemeChanger;
 
 
-authenticationHandler.Handle(new UserData
-{
-    Dto = new()
-    {
-        Login = "login",
-        Password = "qwerty1",
-    }
-});
+chatService.Send("Helloy!");
+chatThemeChanger.Toggle();
 
