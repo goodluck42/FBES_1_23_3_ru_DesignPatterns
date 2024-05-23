@@ -2,6 +2,7 @@
 using System.Collections;
 using BehavioralPatterns.ChainOfResponsibility;
 using BehavioralPatterns.Mediator;
+using BehavioralPatterns.ObjectPool;
 using BehavioralPatterns.Observer;
 
 //
@@ -60,17 +61,44 @@ using BehavioralPatterns.Observer;
 //         Password = "qwerty1",
 //     }
 // });
+/////////////////////
+// var mediator = new ChatMediator();
+// var chatService = new ChatService(mediator);
+// var chatLogger = new ChatLogger(mediator);
+// var chatThemeChanger = new ChatThemeChanger(mediator);
+//
+// mediator.ChatService = chatService;
+// mediator.ChatLogger = chatLogger;
+// mediator.ChatThemeChanger = chatThemeChanger;
+//
+//
+// chatService.Send("Helloy!");
+// chatThemeChanger.Toggle();
 
-var mediator = new ChatMediator();
-var chatService = new ChatService(mediator);
-var chatLogger = new ChatLogger(mediator);
-var chatThemeChanger = new ChatThemeChanger(mediator);
 
-mediator.ChatService = chatService;
-mediator.ChatLogger = chatLogger;
-mediator.ChatThemeChanger = chatThemeChanger;
+var bottlePool = new ObjectPool<Bottle>(5);
 
+ShootBottle();
+Console.WriteLine("-------");
+ShootBottle();
 
-chatService.Send("Helloy!");
-chatThemeChanger.Toggle();
+void ShootBottle()
+{
+    var bottleList = new List<Bottle>();
+    
+    for (int i = 0; i < 12; i++)
+    {
+        Bottle bottle = bottlePool.Get();
+
+        //Console.WriteLine(bottle.ToString());
+    
+        bottleList.Add(bottle);
+    }
+
+    foreach (var bottle in bottleList)
+    {
+        bottlePool.Return(bottle);
+    }
+}
+
 
