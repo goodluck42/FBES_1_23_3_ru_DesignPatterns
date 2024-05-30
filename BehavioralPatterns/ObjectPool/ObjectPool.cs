@@ -15,12 +15,15 @@ public class ObjectPool<T> : IObjectPool<T>
         _objects = new(maxCapacity);
     }
 
+    public Func<T>? Initter { get; set; }
+    
     public T Get()
     {
         if (_objects.Count == 0)
         {
             Console.WriteLine("New object created...");
-            return new T();
+
+            return Initter != null ? Initter() : new T();
         }
 
         Console.WriteLine("Got object from pool...");
